@@ -1,4 +1,3 @@
-using FishNet.Example.Scened;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

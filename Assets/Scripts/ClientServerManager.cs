@@ -1,17 +1,33 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using FishNet;
 using FishNet.Object;
 using UnityEngine;
 
 public class ClientServerManager : NetworkBehaviour
 {
-    [SerializeField] private bool isServer;
+    [SerializeField] private DevState _devState;
 
     private void Awake()
     {
-        if (isServer) InstanceFinder.ServerManager.StartConnection();
-        else InstanceFinder.ClientManager.StartConnection();
+        switch (_devState)
+        {
+            case DevState.BuildSerser:
+                InstanceFinder.ServerManager.StartConnection();
+                break;
+
+            case DevState.BuildLocalhost:
+                InstanceFinder.ServerManager.StartConnection();
+                InstanceFinder.ClientManager.StartConnection();
+                break;
+            case DevState.Play:
+                InstanceFinder.ClientManager.StartConnection();
+                break;
+        }
     }
+}
+
+enum DevState
+{
+    BuildSerser,
+    BuildLocalhost,
+    Play,
 }
